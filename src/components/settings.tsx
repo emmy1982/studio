@@ -22,13 +22,9 @@ export default function Settings() {
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
           <Label htmlFor="theme-mode" className="font-medium">
-            Modo Oscuro
+            Modo Oscuro/Claro
           </Label>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Claro</span>
-            <ThemeToggle />
-            <span className="text-sm text-muted-foreground">Oscuro</span>
-          </div>
+          <ThemeToggle />
         </div>
         <div className="flex items-center justify-between">
           <Label htmlFor="notifications-switch" className="font-medium">
