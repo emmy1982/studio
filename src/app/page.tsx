@@ -7,7 +7,7 @@ import AppHeader from "@/components/header";
 import MeditationTimer from "@/components/meditation-timer";
 import SessionHistory from "@/components/session-history";
 import Settings from "@/components/settings";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Meditation } from "@/components/session-history";
 import { generateImageAction } from "./actions";
 import { useToast } from "@/hooks/use-toast";
@@ -58,10 +58,28 @@ const initialMeditations: Meditation[] = [
 
 
 export default function Home() {
-  const [meditations, setMeditations] = useState<Meditation[]>(initialMeditations);
-  const [currentMeditation, setCurrentMeditation] = useState<Meditation>(initialMeditations[0]);
+  const [meditations, setMeditations] = useState<Meditation[]>([]);
+  const [currentMeditation, setCurrentMeditation] = useState<Meditation | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    try {
+      const storedMeditations = localStorage.getItem("meditations");
+      if (storedMeditations) {
+        const parsedMeditations = JSON.parse(storedMeditations);
+        setMeditations(parsedMeditations);
+        setCurrentMeditation(parsedMeditations[0]);
+      } else {
+        setMeditations(initialMeditations);
+        setCurrentMeditation(initialMeditations[0]);
+      }
+    } catch (error) {
+      console.error("Failed to parse meditations from localStorage", error);
+      setMeditations(initialMeditations);
+      setCurrentMeditation(initialMeditations[0]);
+    }
+  }, []);
 
   const handleSelectMeditation = (meditation: Meditation, play: boolean) => {
     setCurrentMeditation(meditation);
@@ -78,14 +96,20 @@ export default function Home() {
     if (result.success && result.data) {
       const newImageUrl = result.data;
       
-      setMeditations(prevMeditations =>
-        prevMeditations.map(m =>
-          m.id === meditationId ? { ...m, image: newImageUrl } : m
-        )
+      const updatedMeditations = meditations.map(m =>
+        m.id === meditationId ? { ...m, image: newImageUrl } : m
       );
+
+      setMeditations(updatedMeditations);
       
-      if (currentMeditation.id === meditationId) {
-        setCurrentMeditation(prev => ({ ...prev, image: newImageUrl }));
+      if (currentMeditation?.id === meditationId) {
+        setCurrentMeditation(prev => prev ? { ...prev, image: newImageUrl } : null);
+      }
+
+      try {
+        localStorage.setItem("meditations", JSON.stringify(updatedMeditations));
+      } catch (error) {
+        console.error("Failed to save meditations to localStorage", error);
       }
 
     } else {
@@ -97,6 +121,10 @@ export default function Home() {
     }
   };
 
+
+  if (!currentMeditation) {
+    return <div>Cargando...</div>; 
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -117,11 +145,11 @@ export default function Home() {
             onGenerateImage={handleGenerateImage}
           />
         </section>
-        <section id="timer">
-          <MeditationTimer />
-        </section>
         <section id="ambient-sound-generator">
           <AmbientSoundGenerator />
+        </section>
+        <section id="timer">
+          <MeditationTimer />
         </section>
         <section id="settings">
           <Settings />
