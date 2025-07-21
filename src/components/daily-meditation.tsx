@@ -7,9 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Bell, Play, Forward, RotateCcw, Pause } from "lucide-react";
-import { Label } from "./ui/label";
-import { Switch } from "./ui/switch";
+import { Play, Forward, RotateCcw, Pause } from "lucide-react";
 import { useRef, useEffect } from "react";
 import type { Meditation } from "./session-history";
 
@@ -48,8 +46,8 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Solo cambiamos la fuente si es diferente
     const currentSrcUrl = new URL(audio.src);
-    // Comparamos solo la ruta del archivo, no la URL completa.
     if (currentSrcUrl.pathname !== meditation.audioSrc) {
         audio.src = meditation.audioSrc;
         // Si estaba sonando, cargamos y reproducimos la nueva pista.
@@ -86,7 +84,7 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
         src={meditation.audioSrc} 
         onEnded={() => onPlayToggle(false)} 
         onLoadedData={() => {
-          if (isPlaying && audioRef.current) {
+          if (isPlaying && audioRef.current?.paused) {
             audioRef.current.play().catch(e => console.error("Error de reproducción post-carga:", e));
           }
         }}
@@ -109,7 +107,7 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
         </div>
       </div>
       <CardContent className="p-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center justify-center gap-4">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" aria-label="Retroceder 10 segundos" onClick={() => seek(-10)}>
               <RotateCcw className="h-5 w-5" />
@@ -125,11 +123,6 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
             <Button variant="ghost" size="icon" aria-label="Avanzar 10 segundos" onClick={() => seek(10)}>
               <Forward className="h-5 w-5" />
             </Button>
-          </div>
-          <div className="flex items-center space-x-2 p-4 rounded-lg bg-accent/50">
-            <Bell className="h-5 w-5 text-accent-foreground" />
-            <Label htmlFor="daily-reminder" className="text-accent-foreground">Recordatorio Diario</Label>
-            <Switch id="daily-reminder" />
           </div>
         </div>
       </CardContent>

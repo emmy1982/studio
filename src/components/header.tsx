@@ -1,5 +1,5 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import ThemeToggle from "@/components/theme-toggle";
+import DailyReminder from "./daily-reminder";
 
 export default function AppHeader() {
   return (
@@ -9,7 +9,7 @@ export default function AppHeader() {
         <h1 className="text-lg font-semibold md:text-xl font-headline">Zenith Diario</h1>
       </div>
       <div className="ml-auto">
-        <ThemeToggle />
+        <DailyReminder />
       </div>
     </header>
   );
