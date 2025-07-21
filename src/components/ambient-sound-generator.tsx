@@ -28,8 +28,8 @@ import { Loader, Music4 } from "lucide-react";
 const formSchema = z.object({
   keywords: z
     .string()
-    .min(3, { message: "Please enter at least 3 characters." })
-    .max(50, { message: "Please enter no more than 50 characters." }),
+    .min(3, { message: "Por favor, introduce al menos 3 caracteres." })
+    .max(50, { message: "Por favor, no introduzcas más de 50 caracteres." }),
 });
 
 export default function AmbientSoundGenerator() {
@@ -55,16 +55,16 @@ export default function AmbientSoundGenerator() {
       } else {
         toast({
           variant: "destructive",
-          title: "Generation Failed",
-          description: result.error || "An unknown error occurred.",
+          title: "Falló la generación",
+          description: result.error || "Ocurrió un error desconocido.",
         });
       }
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Generation Failed",
+        title: "Falló la generación",
         description:
-          error instanceof Error ? error.message : "An unknown error occurred.",
+          error instanceof Error ? error.message : "Ocurrió un error desconocido.",
       });
     }
 
@@ -76,11 +76,10 @@ export default function AmbientSoundGenerator() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Music4 />
-          AI Ambient Sound Generator
+          Generador de Sonido Ambiental con IA
         </CardTitle>
         <CardDescription>
-          Create a personalized soundscape for focus or relaxation. Try "calm
-          rain on a window" or "gentle ocean waves".
+          Crea un paisaje sonoro personalizado para concentrarte o relajarte. Prueba con "lluvia tranquila en una ventana" o "suaves olas del mar".
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,10 +90,10 @@ export default function AmbientSoundGenerator() {
               name="keywords"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Describe your sound</FormLabel>
+                  <FormLabel>Describe tu sonido</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g. Forest stream, birds chirping"
+                      placeholder="p. ej. Arroyo del bosque, pájaros cantando"
                       {...field}
                       disabled={isLoading}
                     />
@@ -107,19 +106,19 @@ export default function AmbientSoundGenerator() {
               {isLoading ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  Generating...
+                  Generando...
                 </>
               ) : (
-                "Generate Soundscape"
+                "Generar Paisaje Sonoro"
               )}
             </Button>
           </form>
         </Form>
         {audioSrc && (
           <div className="mt-6">
-            <h3 className="font-semibold mb-2">Your Soundscape</h3>
+            <h3 className="font-semibold mb-2">Tu Paisaje Sonoro</h3>
             <audio controls autoPlay src={audioSrc} className="w-full">
-              Your browser does not support the audio element.
+              Tu navegador no soporta el elemento de audio.
             </audio>
           </div>
         )}

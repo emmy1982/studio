@@ -10,19 +10,19 @@ import Image from "next/image";
 
 const history = [
   {
-    title: "Morning Energy",
+    title: "Energía Matutina",
     duration: "10 min",
     image: "https://placehold.co/100x100.png",
     hint: "sunrise mountain",
   },
   {
-    title: "Mindful Work",
+    title: "Trabajo Consciente",
     duration: "5 min",
     image: "https://placehold.co/100x100.png",
     hint: "calm office",
   },
   {
-    title: "Sleep Soundly",
+    title: "Duerme Profundamente",
     duration: "15 min",
     image: "https://placehold.co/100x100.png",
     hint: "starry night",
@@ -33,7 +33,7 @@ export default function SessionHistory() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Session History</CardTitle>
+        <CardTitle>Historial de Sesiones</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
@@ -56,10 +56,10 @@ export default function SessionHistory() {
                   {item.duration}
                 </p>
               </div>
-              <Button variant="ghost" size="icon" aria-label="Favorite">
+              <Button variant="ghost" size="icon" aria-label="Favorito">
                 <Heart className="h-5 w-5 text-muted-foreground transition-colors hover:text-red-500 hover:fill-red-500" />
               </Button>
-              <Button variant="ghost" size="icon" aria-label="Play">
+              <Button variant="ghost" size="icon" aria-label="Reproducir">
                 <Play className="h-5 w-5 text-muted-foreground" />
               </Button>
             </li>

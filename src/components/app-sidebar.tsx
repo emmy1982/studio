@@ -27,40 +27,40 @@ export default function AppSidebar() {
             <Waves className="h-6 w-6" />
           </div>
           <h1 className="text-xl font-bold text-sidebar-foreground font-headline">
-            Zenith Daily
+            Zenith Diario
           </h1>
         </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Dashboard" isActive>
+            <SidebarMenuButton tooltip="Panel" isActive>
               <LayoutDashboard />
-              Dashboard
+              Panel
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="AI Soundscapes">
+            <SidebarMenuButton tooltip="Paisajes Sonoros IA">
               <Music4 />
-              AI Soundscapes
+              Paisajes Sonoros IA
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="History">
+            <SidebarMenuButton tooltip="Historial">
               <History />
-              History
+              Historial
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Timer">
+            <SidebarMenuButton tooltip="Temporizador">
               <Timer />
-              Timer
+              Temporizador
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Settings">
+            <SidebarMenuButton tooltip="Ajustes">
               <Settings />
-              Settings
+              Ajustes
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

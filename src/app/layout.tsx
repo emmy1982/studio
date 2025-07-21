@@ -6,8 +6,8 @@ import { Sidebar, SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/app-sidebar";
 
 export const metadata: Metadata = {
-  title: "Zenith Daily",
-  description: "A moment of calm in your day.",
+  title: "Zenith Diario",
+  description: "Un momento de calma en tu día.",
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
