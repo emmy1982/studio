@@ -22,12 +22,6 @@ const menuItems = [
     tooltip: "Panel",
   },
   {
-    href: "#ambient-sound-generator",
-    icon: Music4,
-    label: "Paisajes Sonoros IA",
-    tooltip: "Paisajes Sonoros IA",
-  },
-  {
     href: "#timer",
     icon: Timer,
     label: "Temporizador",
@@ -38,6 +32,12 @@ const menuItems = [
     icon: History,
     label: "Historial",
     tooltip: "Historial",
+  },
+  {
+    href: "#ambient-sound-generator",
+    icon: Music4,
+    label: "Paisajes Sonoros IA",
+    tooltip: "Paisajes Sonoros IA",
   },
   {
     href: "#settings",
