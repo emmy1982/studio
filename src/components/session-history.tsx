@@ -55,15 +55,23 @@ export default function SessionHistory({ history, playingId, onSelectMeditation,
               key={item.id}
               className="flex items-center gap-4 p-2 -m-2 rounded-lg transition-colors hover:bg-accent/50"
             >
-              <Image
-                src={item.image}
-                alt={item.title}
-                width={64}
-                height={64}
-                className="rounded-lg object-cover"
-                data-ai-hint={item.hint}
-                unoptimized
-              />
+              <div className="relative w-16 h-16">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={64}
+                  height={64}
+                  className="rounded-lg object-cover w-full h-full"
+                  data-ai-hint={item.hint}
+                  unoptimized
+                />
+                {generatingImageId === item.id && (
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
+                    <Loader className="h-6 w-6 text-white animate-spin" />
+                  </div>
+                )}
+              </div>
+
               <div className="flex-1">
                 <p className="font-semibold">{item.title}</p>
                 <p className="text-sm text-muted-foreground">
@@ -77,11 +85,7 @@ export default function SessionHistory({ history, playingId, onSelectMeditation,
                 onClick={() => handleImageGenerateClick(item)}
                 disabled={generatingImageId === item.id}
               >
-                {generatingImageId === item.id ? (
-                  <Loader className="h-5 w-5 animate-spin" />
-                ) : (
-                  <ImageIcon className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
-                )}
+                <ImageIcon className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
               </Button>
               <Button variant="ghost" size="icon" aria-label="Favorito">
                 <Heart className="h-5 w-5 text-muted-foreground transition-colors hover:text-red-500 hover:fill-red-500" />
