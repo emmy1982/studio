@@ -36,7 +36,7 @@ const history = [
     image: "https://placehold.co/100x100.png",
     hint: "night stars",
     description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
-    audioSrc: "/audio/sample-meditation.mp3",
+    audioSrc: "/audio/Visitando_Modo_Ser.mp3",
   },
 ];
 
