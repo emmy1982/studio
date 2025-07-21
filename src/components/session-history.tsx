@@ -27,6 +27,12 @@ const history = [
     image: "https://placehold.co/100x100.png",
     hint: "starry night",
   },
+  {
+    title: "Visitando el modo ser",
+    duration: "5 min",
+    image: "https://placehold.co/100x100.png",
+    hint: "night stars",
+  },
 ];
 
 export default function SessionHistory() {
