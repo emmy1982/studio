@@ -18,8 +18,8 @@ const menuItems = [
   {
     href: "#daily-meditation",
     icon: LayoutDashboard,
-    label: "Panel",
-    tooltip: "Panel",
+    label: "Meditación",
+    tooltip: "Meditación",
   },
   {
     href: "#session-history",
