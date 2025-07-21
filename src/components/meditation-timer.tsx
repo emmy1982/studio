@@ -21,7 +21,7 @@ import {
 import { Label } from "./ui/label";
 
 const ambientSounds = [
-    { id: 'none', name: 'Sin Sonido', src: '' },
+    { id: 'none', name: 'Sin Sonido', src: 'none' },
     { id: 'calm-1', name: 'Meditación Guiada', src: '/audio/sample-meditation.mp3' },
     { id: 'calm-2', name: 'Modo Ser', src: '/audio/Visitando_Modo_Ser.mp3' },
 ];
@@ -49,7 +49,7 @@ export default function MeditationTimer() {
   const startTimer = useCallback(() => {
     if (timeLeft > 0) {
       setIsRunning(true);
-      if (selectedSound && audioRef.current) {
+      if (selectedSound && selectedSound !== 'none' && audioRef.current) {
         audioRef.current?.play().catch(e => console.error("Error al reproducir audio:", e));
       }
       intervalRef.current = setInterval(() => {
@@ -78,7 +78,7 @@ export default function MeditationTimer() {
 
   useEffect(() => {
     if (audioRef.current) {
-      if (selectedSound) {
+      if (selectedSound && selectedSound !== 'none') {
         audioRef.current.src = selectedSound;
         if (isRunning) {
           audioRef.current.play().catch(e => console.error("Error al reproducir nuevo sonido:", e));
@@ -123,7 +123,7 @@ export default function MeditationTimer() {
 
   return (
     <Card>
-      {selectedSound && <audio ref={audioRef} loop />}
+      {selectedSound !== 'none' && <audio ref={audioRef} loop />}
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <TimerIcon />
