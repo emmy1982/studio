@@ -16,7 +16,7 @@ const initialMeditations: Meditation[] = [
     id: "0",
     title: "Conecta con tu Respiración",
     duration: "7 min",
-    image: "/imagenes/img1.jpg",
+    image: "https://placehold.co/1200x400.png",
     hint: "zen forest",
     audioSrc: "/audio/audio.mp3",
   },
@@ -24,7 +24,7 @@ const initialMeditations: Meditation[] = [
     id: "1",
     title: "Energía Matutina",
     duration: "10 min",
-    image: "/imagenes/img2.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "sunrise mountain",
     audioSrc: "/audio/audio2.mp3",
   },
@@ -32,7 +32,7 @@ const initialMeditations: Meditation[] = [
     id: "2",
     title: "Trabajo Consciente",
     duration: "5 min",
-    image: "/imagenes/img3.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "calm office",
     audioSrc: "/audio/audio3.mp3",
   },
@@ -40,7 +40,7 @@ const initialMeditations: Meditation[] = [
     id: "3",
     title: "Duerme Profundamente",
     duration: "15 min",
-    image: "/imagenes/img4.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "starry night",
     audioSrc: "/audio/audio.mp3",
   },
@@ -48,7 +48,7 @@ const initialMeditations: Meditation[] = [
     id: "4",
     title: "Visitando el modo ser",
     duration: "5 min",
-    image: "/imagenes/img5.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "night stars",
     description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
     audioSrc: "/audio/Visitando_Modo_Ser.mp3",
@@ -68,10 +68,13 @@ export default function Home() {
       if (storedMeditations) {
         const parsedMeditations = JSON.parse(storedMeditations);
         setMeditations(parsedMeditations);
-        setCurrentMeditation(parsedMeditations[0]);
+        if (parsedMeditations.length > 0) {
+          setCurrentMeditation(parsedMeditations[0]);
+        }
       } else {
         setMeditations(initialMeditations);
         setCurrentMeditation(initialMeditations[0]);
+        localStorage.setItem("meditations", JSON.stringify(initialMeditations));
       }
     } catch (error) {
       console.error("Failed to parse meditations from localStorage", error);
@@ -79,6 +82,7 @@ export default function Home() {
       setCurrentMeditation(initialMeditations[0]);
     }
   }, []);
+  
 
   const handleSelectMeditation = (meditation: Meditation, play: boolean) => {
     setCurrentMeditation(meditation);

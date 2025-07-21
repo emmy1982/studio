@@ -93,13 +93,11 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
         <Image
           src={meditation.image}
           alt={meditation.title}
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/GgAJ0gL+C31jZAAAAABJRU5ErkJggg=="
           data-ai-hint={meditation.hint}
-          width={600}
-          height={400}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6">
