@@ -1,7 +1,6 @@
 
 "use client";
 
-import { useState, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -11,64 +10,29 @@ import {
 import { Button } from "./ui/button";
 import { Heart, Play, Pause } from "lucide-react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
-const history = [
-  {
-    id: "1",
-    title: "Energía Matutina",
-    duration: "10 min",
-    image: "https://placehold.co/100x100.png",
-    hint: "sunrise mountain",
-    audioSrc: "/audio/sample-meditation.mp3",
-  },
-  {
-    id: "2",
-    title: "Trabajo Consciente",
-    duration: "5 min",
-    image: "https://placehold.co/100x100.png",
-    hint: "calm office",
-    audioSrc: "/audio/sample-meditation.mp3",
-  },
-  {
-    id: "3",
-    title: "Duerme Profundamente",
-    duration: "15 min",
-    image: "https://placehold.co/100x100.png",
-    hint: "starry night",
-    audioSrc: "/audio/sample-meditation.mp3",
-  },
-  {
-    id: "4",
-    title: "Visitando el modo ser",
-    duration: "5 min",
-    image: "https://placehold.co/100x100.png",
-    hint: "night stars",
-    description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
-    audioSrc: "/audio/Visitando_Modo_Ser.mp3",
-  },
-];
+export interface Meditation {
+  id: string;
+  title: string;
+  duration: string;
+  image: string;
+  hint: string;
+  audioSrc: string;
+  description?: string;
+}
 
-export default function SessionHistory() {
-  const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+interface SessionHistoryProps {
+  history: Meditation[];
+  playingId: string | null;
+  onSelectMeditation: (meditation: Meditation, play: boolean) => void;
+}
 
-  const togglePlay = (id: string, src: string) => {
-    if (audioRef.current && playingId === id) {
-      audioRef.current.pause();
-      setPlayingId(null);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      const newAudio = new Audio(src);
-      audioRef.current = newAudio;
-      newAudio.play();
-      setPlayingId(id);
-      newAudio.onended = () => setPlayingId(null);
-    }
+export default function SessionHistory({ history, playingId, onSelectMeditation }: SessionHistoryProps) {
+
+  const handlePlayClick = (meditation: Meditation) => {
+    const isCurrentlyPlaying = playingId === meditation.id;
+    onSelectMeditation(meditation, !isCurrentlyPlaying);
   };
-
 
   return (
     <Card>
@@ -89,6 +53,7 @@ export default function SessionHistory() {
                 height={64}
                 className="rounded-lg"
                 data-ai-hint={item.hint}
+                unoptimized
               />
               <div className="flex-1">
                 <p className="font-semibold">{item.title}</p>
@@ -103,7 +68,7 @@ export default function SessionHistory() {
                 variant="ghost" 
                 size="icon" 
                 aria-label={playingId === item.id ? "Pausar" : "Reproducir"}
-                onClick={() => togglePlay(item.id, item.audioSrc)}
+                onClick={() => handlePlayClick(item)}
               >
                 {playingId === item.id ? (
                   <Pause className="h-5 w-5 text-primary" />

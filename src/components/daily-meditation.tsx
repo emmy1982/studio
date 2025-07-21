@@ -4,38 +4,46 @@
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Bell, Play, Forward, RotateCcw, Pause } from "lucide-react";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import type { Meditation } from "./session-history";
 
-const dailyMeditation = {
-  title: "Conecta con tu Respiración",
-  duration: "7 min",
-  image: "https://placehold.co/1200x400.png",
-  hint: "zen forest",
-  audioSrc: "/audio/sample-meditation.mp3",
-};
+interface DailyMeditationProps {
+  meditation: Meditation;
+  isPlaying: boolean;
+  onPlayToggle: (playing: boolean) => void;
+}
 
-export default function DailyMeditation() {
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }: DailyMeditationProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const togglePlayPause = () => {
+  useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.pause();
+        audioRef.current.play().catch(e => console.error("Error playing audio:", e));
       } else {
-        audioRef.current.play();
+        audioRef.current.pause();
       }
-      setIsPlaying(!isPlaying);
     }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+        audioRef.current.src = meditation.audioSrc;
+        if (isPlaying) {
+            audioRef.current.play().catch(e => console.error("Error playing new audio src:", e));
+        }
+    }
+  }, [meditation, isPlaying]);
+
+
+  const togglePlayPause = () => {
+    onPlayToggle(!isPlaying);
   };
 
   const seek = (seconds: number) => {
@@ -47,21 +55,22 @@ export default function DailyMeditation() {
 
   return (
     <Card className="overflow-hidden">
-       <audio ref={audioRef} src={dailyMeditation.audioSrc} onEnded={() => setIsPlaying(false)} />
+       <audio ref={audioRef} src={meditation.audioSrc} onEnded={() => onPlayToggle(false)} />
       <div className="relative h-48 w-full md:h-64">
         <Image
-          src={dailyMeditation.image}
-          alt="Exuberante bosque verde"
+          src={meditation.image}
+          alt={meditation.title}
           layout="fill"
           objectFit="cover"
-          data-ai-hint={dailyMeditation.hint}
+          data-ai-hint={meditation.hint}
+          unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6">
           <h2 className="text-2xl md:text-3xl font-bold text-white font-headline">
-            {dailyMeditation.title}
+            {meditation.title}
           </h2>
-          <p className="text-white/80">{dailyMeditation.duration}</p>
+          <p className="text-white/80">{meditation.duration}</p>
         </div>
       </div>
       <CardContent className="p-6">
