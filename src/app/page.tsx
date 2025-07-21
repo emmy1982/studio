@@ -1,7 +1,9 @@
 import AmbientSoundGenerator from "@/components/ambient-sound-generator";
 import DailyMeditation from "@/components/daily-meditation";
 import AppHeader from "@/components/header";
+import MeditationTimer from "@/components/meditation-timer";
 import SessionHistory from "@/components/session-history";
+import Settings from "@/components/settings";
 
 export default function Home() {
   return (
@@ -14,8 +16,14 @@ export default function Home() {
         <section id="ambient-sound-generator">
           <AmbientSoundGenerator />
         </section>
+        <section id="timer">
+          <MeditationTimer />
+        </section>
         <section id="session-history">
           <SessionHistory />
+        </section>
+        <section id="settings">
+          <Settings />
         </section>
       </main>
     </div>

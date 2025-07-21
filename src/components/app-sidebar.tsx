@@ -28,10 +28,22 @@ const menuItems = [
     tooltip: "Paisajes Sonoros IA",
   },
   {
+    href: "#timer",
+    icon: Timer,
+    label: "Temporizador",
+    tooltip: "Temporizador",
+  },
+  {
     href: "#session-history",
     icon: History,
     label: "Historial",
     tooltip: "Historial",
+  },
+  {
+    href: "#settings",
+    icon: Settings,
+    label: "Ajustes",
+    tooltip: "Ajustes",
   },
 ];
 
@@ -60,18 +72,6 @@ export default function AppSidebar() {
               </a>
             </SidebarMenuItem>
           ))}
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Temporizador" disabled>
-              <Timer />
-              Temporizador
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Ajustes" disabled>
-              <Settings />
-              Ajustes
-            </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </>
