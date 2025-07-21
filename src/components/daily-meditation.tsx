@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Bell, Play, Forward, RotateCcw, Pause } from "lucide-react";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import type { Meditation } from "./session-history";
 
 interface DailyMeditationProps {
@@ -33,7 +33,9 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
   }, [isPlaying]);
 
   useEffect(() => {
-    if (audioRef.current) {
+    // Cuando cambia la meditación, actualiza la fuente del audio
+    // y si estaba sonando, reproduce la nueva.
+    if (audioRef.current && meditation.audioSrc !== audioRef.current.src) {
         audioRef.current.src = meditation.audioSrc;
         if (isPlaying) {
             audioRef.current.play().catch(e => console.error("Error playing new audio src:", e));
