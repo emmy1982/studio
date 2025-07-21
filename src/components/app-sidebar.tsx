@@ -4,10 +4,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarSeparator,
 } from "@/components/ui/sidebar";
 import {
   Waves,
@@ -17,6 +13,27 @@ import {
   Music4,
   Timer,
 } from "lucide-react";
+
+const menuItems = [
+  {
+    href: "#daily-meditation",
+    icon: LayoutDashboard,
+    label: "Panel",
+    tooltip: "Panel",
+  },
+  {
+    href: "#ambient-sound-generator",
+    icon: Music4,
+    label: "Paisajes Sonoros IA",
+    tooltip: "Paisajes Sonoros IA",
+  },
+  {
+    href: "#session-history",
+    icon: History,
+    label: "Historial",
+    tooltip: "Historial",
+  },
+];
 
 export default function AppSidebar() {
   return (
@@ -33,32 +50,24 @@ export default function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
+          {menuItems.map((item) => (
+            <SidebarMenuItem key={item.href}>
+              <a href={item.href}>
+                <SidebarMenuButton tooltip={item.tooltip}>
+                  <item.icon />
+                  {item.label}
+                </SidebarMenuButton>
+              </a>
+            </SidebarMenuItem>
+          ))}
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Panel" isActive>
-              <LayoutDashboard />
-              Panel
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Paisajes Sonoros IA">
-              <Music4 />
-              Paisajes Sonoros IA
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Historial">
-              <History />
-              Historial
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Temporizador">
+            <SidebarMenuButton tooltip="Temporizador" disabled>
               <Timer />
               Temporizador
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Ajustes">
+            <SidebarMenuButton tooltip="Ajustes" disabled>
               <Settings />
               Ajustes
             </SidebarMenuButton>
