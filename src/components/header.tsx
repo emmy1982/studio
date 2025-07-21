@@ -1,0 +1,16 @@
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import ThemeToggle from "@/components/theme-toggle";
+
+export default function AppHeader() {
+  return (
+    <header className="sticky top-0 z-10 flex items-center h-16 px-4 bg-background/80 backdrop-blur-sm border-b md:px-6">
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="md:hidden" />
+        <h1 className="text-lg font-semibold md:text-xl font-headline">Dashboard</h1>
+      </div>
+      <div className="ml-auto">
+        <ThemeToggle />
+      </div>
+    </header>
+  );
+}
