@@ -36,33 +36,6 @@ export async function generateAmbientSound(
   return ambientSoundFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'ambientSoundPrompt',
-  input: {schema: AmbientSoundInputSchema},
-  output: {schema: AmbientSoundOutputSchema},
-  prompt: `Generate an ambient soundscape based on the following keywords: {{{keywords}}}. The soundscape should be suitable for meditation and focus.`,
-  config: {
-    safetySettings: [
-      {
-        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-        threshold: 'BLOCK_ONLY_HIGH',
-      },
-      {
-        category: 'HARM_CATEGORY_HARASSMENT',
-        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
-      },
-      {
-        category: 'HARM_CATEGORY_HATE_SPEECH',
-        threshold: 'BLOCK_ONLY_HIGH',
-      },
-      {
-        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
-      },
-    ],
-  },
-});
-
 const ambientSoundFlow = ai.defineFlow(
   {
     name: 'ambientSoundFlow',
@@ -80,7 +53,7 @@ const ambientSoundFlow = ai.defineFlow(
           },
         },
       },
-      prompt: `Create a soundscape for meditation. The keywords are ${input.keywords}`,
+      prompt: `Create a rich, detailed, and immersive soundscape for meditation based on the keywords: ${input.keywords}. Describe the sounds in a way that an audio generation model can interpret, focusing on ambience and avoiding narrative voice. For example, if the keywords are "forest rain", describe sounds like 'gentle rain falling on leaves, distant thunder, wind rustling through trees, and the occasional call of a bird'.`,
     });
 
     if (!media) {
