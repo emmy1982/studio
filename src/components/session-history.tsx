@@ -1,3 +1,7 @@
+
+"use client";
+
+import { useState, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -5,11 +9,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
-import { Heart, Play } from "lucide-react";
+import { Heart, Play, Pause } from "lucide-react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const history = [
   {
+    id: "1",
     title: "Energía Matutina",
     duration: "10 min",
     image: "https://placehold.co/100x100.png",
@@ -17,6 +23,7 @@ const history = [
     audioSrc: "/audio/sample-meditation.mp3",
   },
   {
+    id: "2",
     title: "Trabajo Consciente",
     duration: "5 min",
     image: "https://placehold.co/100x100.png",
@@ -24,6 +31,7 @@ const history = [
     audioSrc: "/audio/sample-meditation.mp3",
   },
   {
+    id: "3",
     title: "Duerme Profundamente",
     duration: "15 min",
     image: "https://placehold.co/100x100.png",
@@ -31,6 +39,7 @@ const history = [
     audioSrc: "/audio/sample-meditation.mp3",
   },
   {
+    id: "4",
     title: "Visitando el modo ser",
     duration: "5 min",
     image: "https://placehold.co/100x100.png",
@@ -41,6 +50,26 @@ const history = [
 ];
 
 export default function SessionHistory() {
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const togglePlay = (id: string, src: string) => {
+    if (audioRef.current && playingId === id) {
+      audioRef.current.pause();
+      setPlayingId(null);
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const newAudio = new Audio(src);
+      audioRef.current = newAudio;
+      newAudio.play();
+      setPlayingId(id);
+      newAudio.onended = () => setPlayingId(null);
+    }
+  };
+
+
   return (
     <Card>
       <CardHeader>
@@ -48,9 +77,9 @@ export default function SessionHistory() {
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
-          {history.map((item, index) => (
+          {history.map((item) => (
             <li
-              key={index}
+              key={item.id}
               className="flex items-center gap-4 p-2 -m-2 rounded-lg transition-colors hover:bg-accent/50"
             >
               <Image
@@ -70,8 +99,17 @@ export default function SessionHistory() {
               <Button variant="ghost" size="icon" aria-label="Favorito">
                 <Heart className="h-5 w-5 text-muted-foreground transition-colors hover:text-red-500 hover:fill-red-500" />
               </Button>
-              <Button variant="ghost" size="icon" aria-label="Reproducir">
-                <Play className="h-5 w-5 text-muted-foreground" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                aria-label={playingId === item.id ? "Pausar" : "Reproducir"}
+                onClick={() => togglePlay(item.id, item.audioSrc)}
+              >
+                {playingId === item.id ? (
+                  <Pause className="h-5 w-5 text-primary" />
+                ) : (
+                  <Play className="h-5 w-5 text-muted-foreground" />
+                )}
               </Button>
             </li>
           ))}
