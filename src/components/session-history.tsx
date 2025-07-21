@@ -54,7 +54,6 @@ export default function SessionHistory({ history, playingId, onSelectMeditation 
                   height={64}
                   className="rounded-lg object-cover w-full h-full"
                   data-ai-hint={item.hint}
-                  unoptimized
                 />
               </div>
 

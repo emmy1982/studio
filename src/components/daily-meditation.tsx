@@ -96,7 +96,6 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
           layout="fill"
           objectFit="cover"
           data-ai-hint={meditation.hint}
-          unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6">
