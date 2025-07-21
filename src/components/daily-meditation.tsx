@@ -95,6 +95,8 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
           alt={meditation.title}
           layout="fill"
           objectFit="cover"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/GgAJ0gL+C31jZAAAAABJRU5ErkJggg=="
           data-ai-hint={meditation.hint}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

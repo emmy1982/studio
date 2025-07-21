@@ -1,7 +1,6 @@
 
 "use client";
 
-import AmbientSoundGenerator from "@/components/ambient-sound-generator";
 import DailyMeditation from "@/components/daily-meditation";
 import AppHeader from "@/components/header";
 import MeditationTimer from "@/components/meditation-timer";
@@ -10,13 +9,14 @@ import Settings from "@/components/settings";
 import { useState, useEffect } from "react";
 import type { Meditation } from "@/components/session-history";
 import { useToast } from "@/hooks/use-toast";
+import AmbientSoundGenerator from "@/components/ambient-sound-generator";
 
 const initialMeditations: Meditation[] = [
   {
     id: "0",
     title: "Conecta con tu Respiración",
     duration: "7 min",
-    image: "/images/img1.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "zen forest",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -24,7 +24,7 @@ const initialMeditations: Meditation[] = [
     id: "1",
     title: "Energía Matutina",
     duration: "10 min",
-    image: "/images/img1.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "sunrise mountain",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -32,7 +32,7 @@ const initialMeditations: Meditation[] = [
     id: "2",
     title: "Trabajo Consciente",
     duration: "5 min",
-    image: "/images/img2.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "calm office",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -40,7 +40,7 @@ const initialMeditations: Meditation[] = [
     id: "3",
     title: "Duerme Profundamente",
     duration: "15 min",
-    image: "/images/img3.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "starry night",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -48,7 +48,7 @@ const initialMeditations: Meditation[] = [
     id: "4",
     title: "Visitando el modo ser",
     duration: "5 min",
-    image: "/images/img4.jpg",
+    image: "https://placehold.co/600x400.png",
     hint: "night stars",
     description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
     audioSrc: "/audio/Visitando_Modo_Ser.mp3",

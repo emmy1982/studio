@@ -53,6 +53,8 @@ export default function SessionHistory({ history, playingId, onSelectMeditation 
                   width={64}
                   height={64}
                   className="rounded-lg object-cover w-full h-full"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/GgAJ0gL+C31jZAAAAABJRU5ErkJggg=="
                   data-ai-hint={item.hint}
                 />
               </div>
