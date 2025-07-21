@@ -14,24 +14,29 @@ const history = [
     duration: "10 min",
     image: "https://placehold.co/100x100.png",
     hint: "sunrise mountain",
+    audioSrc: "/audio/sample-meditation.mp3",
   },
   {
     title: "Trabajo Consciente",
     duration: "5 min",
     image: "https://placehold.co/100x100.png",
     hint: "calm office",
+    audioSrc: "/audio/sample-meditation.mp3",
   },
   {
     title: "Duerme Profundamente",
     duration: "15 min",
     image: "https://placehold.co/100x100.png",
     hint: "starry night",
+    audioSrc: "/audio/sample-meditation.mp3",
   },
   {
     title: "Visitando el modo ser",
     duration: "5 min",
     image: "https://placehold.co/100x100.png",
     hint: "night stars",
+    description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
+    audioSrc: "/audio/sample-meditation.mp3",
   },
 ];
 
