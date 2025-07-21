@@ -9,6 +9,8 @@ import SessionHistory from "@/components/session-history";
 import Settings from "@/components/settings";
 import { useState } from "react";
 import type { Meditation } from "@/components/session-history";
+import { generateImageAction } from "./actions";
+import { useToast } from "@/hooks/use-toast";
 
 const initialMeditations: Meditation[] = [
   {
@@ -56,9 +58,10 @@ const initialMeditations: Meditation[] = [
 
 
 export default function Home() {
-  const [history] = useState<Meditation[]>(initialMeditations.slice(1));
+  const [meditations, setMeditations] = useState<Meditation[]>(initialMeditations);
   const [currentMeditation, setCurrentMeditation] = useState<Meditation>(initialMeditations[0]);
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleSelectMeditation = (meditation: Meditation, play: boolean) => {
     setCurrentMeditation(meditation);
@@ -68,6 +71,32 @@ export default function Home() {
       setPlayingId(null);
     }
   };
+
+  const handleGenerateImage = async (meditationId: string, prompt: string) => {
+    const result = await generateImageAction(prompt);
+
+    if (result.success && result.data) {
+      const newImageUrl = result.data;
+      
+      setMeditations(prevMeditations =>
+        prevMeditations.map(m =>
+          m.id === meditationId ? { ...m, image: newImageUrl } : m
+        )
+      );
+      
+      if (currentMeditation.id === meditationId) {
+        setCurrentMeditation(prev => ({ ...prev, image: newImageUrl }));
+      }
+
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Falló la generación de imagen",
+        description: result.error || "Ocurrió un error desconocido.",
+      });
+    }
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -82,9 +111,10 @@ export default function Home() {
         </section>
         <section id="session-history">
           <SessionHistory 
-            history={history}
+            history={meditations.filter(m => m.id !== '0')}
             onSelectMeditation={handleSelectMeditation}
             playingId={playingId}
+            onGenerateImage={handleGenerateImage}
           />
         </section>
         <section id="timer">
