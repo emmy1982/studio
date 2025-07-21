@@ -20,25 +20,49 @@ interface DailyMeditationProps {
 }
 
 export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }: DailyMeditationProps) {
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Efecto para controlar la reproducción/pausa
   useEffect(() => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play().catch(e => console.error("Error playing audio:", e));
-      } else {
-        audioRef.current.pause();
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      // play() devuelve una promesa que puede ser rechazada si es interrumpida.
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // La interrupción automática es normal, no es necesario registrarla.
+          if (error.name !== 'AbortError') {
+            console.error("Error al reproducir el audio:", error);
+          }
+        });
       }
+    } else {
+      audio.pause();
     }
   }, [isPlaying]);
 
+  // Efecto para cambiar la fuente del audio cuando cambia la meditación
   useEffect(() => {
-    // Cuando cambia la meditación, actualiza la fuente del audio
-    // y si estaba sonando, reproduce la nueva.
-    if (audioRef.current && meditation.audioSrc !== audioRef.current.src) {
-        audioRef.current.src = meditation.audioSrc;
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const currentSrcUrl = new URL(audio.src);
+    // Comparamos solo la ruta del archivo, no la URL completa.
+    if (currentSrcUrl.pathname !== meditation.audioSrc) {
+        audio.src = meditation.audioSrc;
+        // Si estaba sonando, cargamos y reproducimos la nueva pista.
         if (isPlaying) {
-            audioRef.current.play().catch(e => console.error("Error playing new audio src:", e));
+            audio.load();
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    if (error.name !== 'AbortError') {
+                      console.error("Error al reproducir nueva pista:", error);
+                    }
+                });
+            }
         }
     }
   }, [meditation, isPlaying]);
@@ -57,7 +81,16 @@ export default function DailyMeditation({ meditation, isPlaying, onPlayToggle }:
 
   return (
     <Card className="overflow-hidden">
-       <audio ref={audioRef} src={meditation.audioSrc} onEnded={() => onPlayToggle(false)} />
+       <audio 
+        ref={audioRef} 
+        src={meditation.audioSrc} 
+        onEnded={() => onPlayToggle(false)} 
+        onLoadedData={() => {
+          if (isPlaying && audioRef.current) {
+            audioRef.current.play().catch(e => console.error("Error de reproducción post-carga:", e));
+          }
+        }}
+       />
       <div className="relative h-48 w-full md:h-64">
         <Image
           src={meditation.image}
