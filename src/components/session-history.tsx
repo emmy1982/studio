@@ -8,9 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
-import { Heart, Play, Pause, Image as ImageIcon, Loader } from "lucide-react";
+import { Heart, Play, Pause } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 export interface Meditation {
   id: string;
@@ -26,23 +25,15 @@ interface SessionHistoryProps {
   history: Meditation[];
   playingId: string | null;
   onSelectMeditation: (meditation: Meditation, play: boolean) => void;
-  onGenerateImage: (meditationId: string, prompt: string) => Promise<void>;
 }
 
-export default function SessionHistory({ history, playingId, onSelectMeditation, onGenerateImage }: SessionHistoryProps) {
-  const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
+export default function SessionHistory({ history, playingId, onSelectMeditation }: SessionHistoryProps) {
 
   const handlePlayClick = (meditation: Meditation) => {
     const isCurrentlyPlaying = playingId === meditation.id;
     onSelectMeditation(meditation, !isCurrentlyPlaying);
   };
   
-  const handleImageGenerateClick = async (meditation: Meditation) => {
-    setGeneratingImageId(meditation.id);
-    await onGenerateImage(meditation.id, meditation.hint);
-    setGeneratingImageId(null);
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -65,11 +56,6 @@ export default function SessionHistory({ history, playingId, onSelectMeditation,
                   data-ai-hint={item.hint}
                   unoptimized
                 />
-                {generatingImageId === item.id && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg">
-                    <Loader className="h-6 w-6 text-white animate-spin" />
-                  </div>
-                )}
               </div>
 
               <div className="flex-1">
@@ -78,15 +64,6 @@ export default function SessionHistory({ history, playingId, onSelectMeditation,
                   {item.duration}
                 </p>
               </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                aria-label="Generar Imagen"
-                onClick={() => handleImageGenerateClick(item)}
-                disabled={generatingImageId === item.id}
-              >
-                <ImageIcon className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
-              </Button>
               <Button variant="ghost" size="icon" aria-label="Favorito">
                 <Heart className="h-5 w-5 text-muted-foreground transition-colors hover:text-red-500 hover:fill-red-500" />
               </Button>

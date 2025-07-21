@@ -9,7 +9,6 @@ import SessionHistory from "@/components/session-history";
 import Settings from "@/components/settings";
 import { useState, useEffect } from "react";
 import type { Meditation } from "@/components/session-history";
-import { generateImageAction } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 
 const initialMeditations: Meditation[] = [
@@ -17,7 +16,7 @@ const initialMeditations: Meditation[] = [
     id: "0",
     title: "Conecta con tu Respiración",
     duration: "7 min",
-    image: "/imagenes/img1.jpg",
+    image: "/images/img1.jpg",
     hint: "zen forest",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -25,7 +24,7 @@ const initialMeditations: Meditation[] = [
     id: "1",
     title: "Energía Matutina",
     duration: "10 min",
-    image: "/imagenes/img2.jpg",
+    image: "/images/img1.jpg",
     hint: "sunrise mountain",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -33,7 +32,7 @@ const initialMeditations: Meditation[] = [
     id: "2",
     title: "Trabajo Consciente",
     duration: "5 min",
-    image: "/imagenes/img3.png",
+    image: "/images/img2.jpg",
     hint: "calm office",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -41,7 +40,7 @@ const initialMeditations: Meditation[] = [
     id: "3",
     title: "Duerme Profundamente",
     duration: "15 min",
-    image: "/imagenes/img4.png",
+    image: "/images/img3.jpg",
     hint: "starry night",
     audioSrc: "/audio/sample-meditation.mp3",
   },
@@ -49,7 +48,7 @@ const initialMeditations: Meditation[] = [
     id: "4",
     title: "Visitando el modo ser",
     duration: "5 min",
-    image: "/imagenes/img5.png",
+    image: "/images/img4.jpg",
     hint: "night stars",
     description: "Esta meditación un poco más larga que la anterior, 5 minutos, te permite explorar el modo ser en oposición al modo hacer en el cual estamos habitualmente.",
     audioSrc: "/audio/Visitando_Modo_Ser.mp3",
@@ -58,7 +57,7 @@ const initialMeditations: Meditation[] = [
 
 
 export default function Home() {
-  const [meditations, setMeditations] = useState<Meditation[]>([]);
+  const [meditations, setMeditations] = useState<Meditation[]>(initialMeditations);
   const [currentMeditation, setCurrentMeditation] = useState<Meditation | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const { toast } = useToast();
@@ -90,38 +89,6 @@ export default function Home() {
     }
   };
 
-  const handleGenerateImage = async (meditationId: string, prompt: string) => {
-    const result = await generateImageAction(prompt);
-
-    if (result.success && result.data) {
-      const newImageUrl = result.data;
-      
-      const updatedMeditations = meditations.map(m =>
-        m.id === meditationId ? { ...m, image: newImageUrl } : m
-      );
-
-      setMeditations(updatedMeditations);
-      
-      if (currentMeditation?.id === meditationId) {
-        setCurrentMeditation(prev => prev ? { ...prev, image: newImageUrl } : null);
-      }
-
-      try {
-        localStorage.setItem("meditations", JSON.stringify(updatedMeditations));
-      } catch (error) {
-        console.error("Failed to save meditations to localStorage", error);
-      }
-
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Falló la generación de imagen",
-        description: result.error || "Ocurrió un error desconocido.",
-      });
-    }
-  };
-
-
   if (!currentMeditation) {
     return <div>Cargando...</div>; 
   }
@@ -142,14 +109,13 @@ export default function Home() {
             history={meditations.filter(m => m.id !== '0')}
             onSelectMeditation={handleSelectMeditation}
             playingId={playingId}
-            onGenerateImage={handleGenerateImage}
           />
-        </section>
-        <section id="ambient-sound-generator">
-          <AmbientSoundGenerator />
         </section>
         <section id="timer">
           <MeditationTimer />
+        </section>
+        <section id="ambient-sound-generator">
+          <AmbientSoundGenerator />
         </section>
         <section id="settings">
           <Settings />
