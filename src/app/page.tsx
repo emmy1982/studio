@@ -80,15 +80,15 @@ export default function Home() {
             onPlayToggle={(playing) => setPlayingId(playing ? currentMeditation.id : null)}
           />
         </section>
-        <section id="timer">
-          <MeditationTimer />
-        </section>
         <section id="session-history">
           <SessionHistory 
             history={history}
             onSelectMeditation={handleSelectMeditation}
             playingId={playingId}
           />
+        </section>
+        <section id="timer">
+          <MeditationTimer />
         </section>
         <section id="ambient-sound-generator">
           <AmbientSoundGenerator />

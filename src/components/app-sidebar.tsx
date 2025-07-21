@@ -22,16 +22,16 @@ const menuItems = [
     tooltip: "Panel",
   },
   {
-    href: "#timer",
-    icon: Timer,
-    label: "Temporizador",
-    tooltip: "Temporizador",
-  },
-  {
     href: "#session-history",
     icon: History,
     label: "Historial",
     tooltip: "Historial",
+  },
+  {
+    href: "#timer",
+    icon: Timer,
+    label: "Temporizador",
+    tooltip: "Temporizador",
   },
   {
     href: "#ambient-sound-generator",
