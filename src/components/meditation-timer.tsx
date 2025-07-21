@@ -49,7 +49,7 @@ export default function MeditationTimer() {
   const startTimer = useCallback(() => {
     if (timeLeft > 0) {
       setIsRunning(true);
-      if (selectedSound) {
+      if (selectedSound && audioRef.current) {
         audioRef.current?.play().catch(e => console.error("Error al reproducir audio:", e));
       }
       intervalRef.current = setInterval(() => {
@@ -76,6 +76,21 @@ export default function MeditationTimer() {
     stopTimer();
   }, [duration, stopTimer]);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      if (selectedSound) {
+        audioRef.current.src = selectedSound;
+        if (isRunning) {
+          audioRef.current.play().catch(e => console.error("Error al reproducir nuevo sonido:", e));
+        }
+      } else {
+        audioRef.current.pause();
+        audioRef.current.removeAttribute('src');
+      }
+    }
+  }, [selectedSound, isRunning]);
+
+
   const toggleTimer = () => {
     if (isRunning) {
       stopTimer();
@@ -98,12 +113,6 @@ export default function MeditationTimer() {
 
   const handleSoundChange = (value: string) => {
     setSelectedSound(value);
-    if(audioRef.current) {
-        audioRef.current.src = value;
-        if(isRunning) {
-           audioRef.current.play().catch(e => console.error("Error al reproducir nuevo sonido:", e));
-        }
-    }
   }
   
   const formatTime = (seconds: number) => {
@@ -114,7 +123,7 @@ export default function MeditationTimer() {
 
   return (
     <Card>
-      <audio ref={audioRef} src={selectedSound} loop />
+      {selectedSound && <audio ref={audioRef} loop />}
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <TimerIcon />
